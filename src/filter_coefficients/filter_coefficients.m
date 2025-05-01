@@ -32,7 +32,7 @@ Ts_high = 1/96000;
 
 
 % get Information about the filter
-Input_fileID = fopen('../../data/FilterInformation.txt');
+Input_fileID = fopen('../../data/filterInformation.txt');
 input_data = dlmread (Input_fileID, ' ')
 fclose(Input_fileID);
 
