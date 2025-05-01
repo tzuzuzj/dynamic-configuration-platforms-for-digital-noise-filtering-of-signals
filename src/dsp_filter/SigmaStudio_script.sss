@@ -1,0 +1,48 @@
+// (C) Stefan Dangl (dangl.stefan@gmx.at)
+// Project: Project: Dynamic configuration Platforms for digital noise filtering of signals
+// LANGUAGE: C#
+// This script manages in cooperation with the shell script "DSP_script.bat" the automated reconfiguration of the DSP filter instrument
+
+	int lower_cof = 48;
+	int higher_cof = 18000;
+	float avrg;
+	float lower_avrg;
+	float higher_avrg;
+	int cnt = 0;
+
+	// opening the SigmaStudio project
+	ss.ProjectOpen(@"AutomatedDigitalFilter.dspproj");
+
+	// initialisation of the DSP-Board
+	ss.PrintLine("Link, Compile, Download");
+	ss.ProjectLinkCompile();
+	ss.ProjectLinkCompileDownload();
+
+	// Reading from the FilterInformation.txt file
+	string pathSource = (@"..\..\data\FilterInformation.txt");
+
+	while(true){
+
+		// read the parameters from the shared buffer
+		FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read);
+		System.IO.StreamReader sr = new System.IO.StreamReader(fsSource, System.Text.Encoding.ASCII);
+		string FileLine = sr.ReadLine();
+		fsSource.Close();
+		ss.PrintLine(FileLine);
+
+		// extracting the parameters from the read string
+		string[] words = FileLine.Split(' ');
+		lower_cof = Convert.ToInt32(words[1]);
+		higher_cof = Convert.ToInt32(words[2]);
+
+		// set cut off frequencies of the filters:
+		// left side
+		ss.ObjectSetProperties("setControlValue", "L_LC_1st_order", 0, 0, "Frequency", lower_cof);
+		ss.ObjectSetProperties("setControlValue", "L_HC_1st_order", 0, 0, "Frequency", higher_cof);
+
+		// right side
+		ss.ObjectSetProperties("setControlValue", "R_LC_1st_order", 0, 0, "Frequency", lower_cof);
+		ss.ObjectSetProperties("setControlValue", "R_HC_1st_order", 0, 0, "Frequency", higher_cof);
+
+		System.Threading.Thread.Sleep(1000);
+	}
