@@ -3,7 +3,7 @@ License: ISC license
 
 # Dynamic configuration Platforms for digital noise filtering of Signals
 
-This project is about adaptive digital noise reduction of signals. The frequency spectrum of the input signal is analyzed by a micro controller (MCU). The MCU considers in which frequency spectrum noise is located and decides which parts of the spectrum to filter. Subsequently a filtering device is configured according. The reconfiguration of the filtering devices works automatically. A Windows Server is used as link between the MCU and the filtering devices. When the MCU provides new data, the server computes the filter configurations and reconfigures the filters.
+This project is about adaptive digital noise reduction of signals. The frequency spectrum of the input signal is analyzed by a micro controller (MCU). The MCU considers in which frequency spectrum noise is located and decides which parts of the spectrum to filter. A filtering device is configured according. The reconfiguration of the filtering devices works automatically. A Windows Server is used as link between the MCU and the filtering devices. When the MCU provides new data, the server computes the filter configurations and reconfigures the devices.
 
 We compared two filter implementation, one based on an custom FPGA design, the other utilizes a DSP. While the DSP implementation required significantly less effort, it lacks in flexibility.
 
